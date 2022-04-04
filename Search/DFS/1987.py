@@ -1,32 +1,31 @@
-import sys
-sys.setrecursionlimit(10**6)
+r, c = list(map(int, input().split()))
 
-R, C = map(int, sys.stdin.readline().split())
-graph = []
-for _ in range(R):
-    graph.append(list(sys.stdin.readline().rstrip('\n')))
-    
-start = [0, 0]
-dir = [[-1, 0], [1, 0], [0, -1], [0, 1]]
-visited = []
-numlist = []
+board = []
+dxy = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+for _ in range(r):
+    board.append(input())
 
-def dfs(start, graph, maxnum, numlist):
-    if graph[start[0]][start[1]] not in visited:
-        visited.append(graph[start[0]][start[1]])
-        maxnum += 1
-        numlist.append(maxnum)
-    for di in dir:
-        if start[0] + di[0] < 0 or start[0] + di[0] >= R or start[1] + di[1] < 0 or start[1] + di[1] >= C:
-            pass
-        elif graph[start[0]+di[0]][start[1]+di[1]] not in visited:
-            dfs([start[0]+di[0],start[1]+di[1]], graph, maxnum, numlist)
-    # for di in dir:
-    #     try:
-    #         if graph[start[0]+di[0]][start[1]+di[1]] not in visited:
-    #             dfs([start[0]+di[0],start[1]+di[1]], graph, visited, maxnum, numlist)
-    #     except:
-    #         print('except')
+visited = [False for _ in range(26)]
+DIFF = ord('A')
+def dfs(x, y):
+    global visited
 
-dfs(start, graph, 0, numlist)
-print(max(numlist))
+    asc = ord(board[x][y])
+    visited[asc-DIFF] = True
+    cnt = 1
+
+    local_max_cnt = 0
+    for dx, dy in dxy:
+        if x+dx < 0 or x+dx >= r or y+dy < 0 or y+dy >= c:
+            continue
+        _asc = ord(board[x+dx][y+dy])
+        if not visited[_asc-DIFF]:
+            visited[_asc-DIFF] = True
+            local_cnt = dfs(x+dx, y+dy)
+            local_max_cnt = local_cnt if local_cnt > local_max_cnt else local_max_cnt
+            visited[_asc-DIFF] = False
+
+    cnt += local_max_cnt
+    return cnt
+
+print(dfs(0, 0))
