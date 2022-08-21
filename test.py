@@ -1,7 +1,5 @@
-import graphlib
+import re
 
-
-graph = []
-for i in range(-1, -5, -1):
-    graph.append(i)
-print(graph)
+str = "fro??"
+str = str.replace("?", "")
+print(str, len(str))
