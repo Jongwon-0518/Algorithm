@@ -36,4 +36,4 @@ def solution(n, start, end, roads, traps):
     
     return answer
 
-print(solution(5, 1, 5, [[1, 2, 1], [2, 1, 1], [2, 3, 1], [3, 2, 1], [3, 5, 1]], [4]))
+print(solution(5, 1, 5, [[1, 2, 1], [2, 1, 1], [2, 3, 1], [3, 2, 1], [3, 5, 1]], [4])) 
